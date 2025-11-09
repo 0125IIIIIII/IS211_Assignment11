@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Weekend Chores</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        table { border-collapse: collapse; width: 60%; margin: 20px auto; }
+        th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+        form { text-align: center; margin-top: 20px; }
+        textarea, input, select { width: 300px; margin-bottom: 10px; }
+        button { margin-top: 10px; padding: 6px 12px; }
+        .flash-messages { color: red; text-align: center; margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <div class="flash-messages">
+          <ul>
+            {% for message in messages %}
+              <li>{{ message }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    <h2 style="text-align:center;">Weekend To Do List</h2>
+    <table>
+        <tr><th>#</th><th>Task</th></tr>
+        {% for item in items %}
+        <tr><td>{{ loop.index }}</td><td>{{ item }}</td></tr>
+        {% endfor %}
+    </table>
+
+    <!-- Clear List Form -->
+    <form method="POST" action="/clear">
+    <button type="submit">Clear</button>
+    </form>
+
+    <!-- Replace List Form -->
+    <form method="POST">
+        <label for="new_items">Replace List (comma-separated):</label><br>
+        <textarea name="new_items" placeholder="e.g. wash dishes, take out trash"></textarea><br>
+        <button name="replace" type="submit">Replace List</button>
+    </form>
+
+    <!-- Add New Item Form -->
+    <h3 style="text-align:center;">Add a New To Do Item</h3>
+    <form method="POST" action="/submit">
+        <label for="task">Task:</label><br>
+        <input type="text" id="task" name="task" required><br>
+
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" name="email" required><br>
+
+        <label for="priority">Difficulty:</label><br>
+        <select id="priority" name="priority" required>
+            <option value="Low">Low</option>
+            <option value="Medium">Medium</option>
+            <option value="High">High</option>
+        </select><br>
+
+        <button type="submit">Add To Do Item</button>
+    </form>
+
+</body>
+</html>
